@@ -1,6 +1,6 @@
 (ns shouter.core
-    (:use [compojure.core :only [defroutes GET]])
-    (:require [ring.adapter.jetty :as ring])
+    (:use [compojure.core :only (defroutes GET)]
+          [ring.adapter.jetty :as ring])
     (:use [hiccup.page :only [html5]]))
 
 (defn index []
@@ -13,5 +13,10 @@
 (defroutes routes
     (GET "/" [] (index)))
 
+(defn -main []
+  (run-jetty routes {:port 9090 :join? false}))
+
+(comment
 (defn start []
-    (ring/run-jetty #'routes {:port 8080 :join? false}))
+    (ring/run-jetty #'routes {:port 9090 :join? false}))
+)
