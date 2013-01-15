@@ -1,22 +1,21 @@
 (ns shouter.core
-    (:use [compojure.core :only (defroutes GET)]
+    (:use [compojure.core :only (defroutes)]
           [ring.adapter.jetty :as ring])
-    (:use [hiccup.page :only [html5]]))
-
-(defn index []
-    (html5
-        [:head
-            [:title "Hello World"]]
-        [:body
-            [:div {:id "content"} "Hello World by Rafa"]]))
+    (:require [compojure.route :as route]
+              [compojure.handler :as handler]
+              [shouter.controllers.shouts :as shouts]
+              [shouter.views.layout :as layout]))
 
 (defroutes routes
-    (GET "/" [] (index)))
+    shouts/routes
+    (route/resources "/")
+    (route/not-found (layout/four-oh-four)))
+
+(def application (handler/site routes))
+
+(defn start [port]
+    (run-jetty application {:port port :join? false}))
 
 (defn -main []
-  (run-jetty routes {:port 9090 :join? false}))
-
-(comment
-(defn start []
-    (ring/run-jetty #'routes {:port 9090 :join? false}))
-)
+    (let [port (Integer/parseInt (or (System/getenv "PORT") "9090"))]
+        (start port)))

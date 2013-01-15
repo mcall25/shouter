@@ -9,4 +9,11 @@ https://devcenter.heroku.com/articles/clojure-web-application
 ## Usage
 
 > git clone ...
+
+Create a MySQL database called "shouter"
+
+Modify the file /shouter/src/shouter/models/db.clj to use your mysql configuration
+
+> lein run -m shouter.models.migration
+
 > lein run
