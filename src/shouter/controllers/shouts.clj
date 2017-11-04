@@ -18,23 +18,9 @@
                [mime-type :as mime])
               ))
 
-;(defn index []
-;    (view/index (model/all)))
-
-;(defn get-football-players []
-;  (model/all-users))
-;
-;(defn create [shout]
-;    (when-not (str/blank? shout) (model/create shout))
-;    (ring/redirect "/"))
-
-
 (defroutes routes
-           ;(GET "/" [] (index))
            (GET "/users" [] (model/all-users))
-           ;(POST "/" [shout] (create shout))
            )
-
 
 (defn wrap-json-response [handler]
   (fn [request]
