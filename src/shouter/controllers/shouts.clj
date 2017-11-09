@@ -1,5 +1,5 @@
 (ns shouter.controllers.shouts
-    (:use [compojure.core :only (defroutes GET POST)])
+    (:use [compojure.core :only (defroutes GET POST PUT DELETE context)])
     (:use [ring.middleware.json :only (wrap-json-body)])
     (:use ring.util.response)
     (:require [clojure.string :as str]
@@ -19,18 +19,34 @@
               ))
 
 (defroutes routes
-           (GET "/users" [] (model/all-users))
-           )
+           (GET "/users" []
+             (let [respData (model/all-users)]
+               {:status 200
+                :body {:result :success
+                       :data respData
+                       :desc (str "get request for all users")}}))
+           (POST "/adduser" userinfo
+             (let [postData (model/add-user (get userinfo :body) )]
+               {:status 200
+                :body {:result :success
+                       :data postData
+                       :desc (str "add user")}}))
+           (POST "/deleteuser" id
+             (let [deleteData (model/delete-user (get id :body))]
+               {:status 200
+                :body {:result :success
+                       :data deleteData
+                       :desc (str "delete user")}}))
+           (route/resources "/")
+           (route/not-found "Not Found"))
+
 
 (defn wrap-json-response [handler]
   (fn [request]
-    (let [response (handler request)]
-      (if (coll? (:body response))
-        (let [json-response (update-in response [:body] ch/generate-string)]
-          (if (contains? (:headers response) "Content-Type")
-            json-response
-            (assoc-in json-response [:headers "Content-Type"] "application/json; charset=utf-8")))
-        response))))
+    (let [response (handler request)
+          json-response (update-in response [:body] ch/generate-string)]
+      (assoc-in json-response [:headers "Content-Type"] "application/json; charset=utf-8")
+      )))
 
 (def app
   (->
