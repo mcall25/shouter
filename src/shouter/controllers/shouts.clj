@@ -25,18 +25,42 @@
                 :body {:result :success
                        :data respData
                        :desc (str "get request for all users")}}))
-           (POST "/adduser" userinfo
+           (POST "/users/add" userinfo
              (let [postData (model/add-user (get userinfo :body) )]
                {:status 200
                 :body {:result :success
                        :data postData
                        :desc (str "add user")}}))
-           (POST "/deleteuser" id
+           (GET "/users/v1/profile/:id" [id]
+             (let [data (model/users-profile-by-id id)]
+               {:status 200
+                :body {:result :success
+                       :data data
+                       :desc (str "get user profile by id parms")}}))
+           (POST "/users/delete" id
              (let [deleteData (model/delete-user (get id :body))]
                {:status 200
                 :body {:result :success
                        :data deleteData
                        :desc (str "delete user")}}))
+           (POST "/games/add" games
+             (let [data (model/games-add (get games :body))]
+               {:status 200
+                :body {:result :success
+                       :data data
+                       :desc (str "add game")}}))
+           (GET "/teams" []
+             (let [respData (model/all-teams)]
+               {:status 200
+                :body {:result :success
+                       :data respData
+                       :desc (str "get request for all teams")}}))
+           (POST "/teams/add" teamData
+             (let [post-data (model/add-team (get teamData :body))]
+               {:status 200
+                :body {:result :success
+                       :data post-data
+                       :desc (str "add a team")}}))
            (route/resources "/")
            (route/not-found "Not Found"))
 
@@ -52,6 +76,8 @@
   (->
     routes
     (wrap-json-response)
-    (json/wrap-json-body {:keywords? true }) )
-  )
+    (json/wrap-json-body {:keywords? true })))
+
+
+
 
