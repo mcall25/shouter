@@ -8,6 +8,7 @@
               [compojure.route :as route]
               [shouter.views.shouts :as view]
               [shouter.models.shout :as model]
+              [shouter.views.get-all-users :as users]
               [cheshire.core :as ch]
     (ring.middleware [session :as ses]
                      [json :as json]
@@ -20,7 +21,7 @@
 
 (defroutes routes
            (GET "/users" []
-             (let [respData (model/all-users)]
+             (let [respData (users/all-users)]
                {:status 200
                 :body {:result :success
                        :data respData

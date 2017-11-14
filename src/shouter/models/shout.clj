@@ -37,18 +37,7 @@
     result))
 
 
-(defn all-users
-  [] (let [res (query db/db-connection
-   (str "select *, t.team_name as teamName from users u left join team t on u.team_id = t.entity_id where u.state_name = 'active' ")
-    response (:result-set-fn first))]
-      (map (fn [row]
-             {:fn (row :first-name)
-              :ln (row :last-name)
-              :nick-name (row :nick-name)
-              :entity-id (row :entity-id)
-              :team-id (row :team-id)
-              :team-name (row :teamName)
-              :state-name (row :state-name)})res)))
+
 
 (defn add-user
   [body] (execute! db/db-connection
