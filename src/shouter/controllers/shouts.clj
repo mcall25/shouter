@@ -8,6 +8,7 @@
               [compojure.route :as route]
               [shouter.views.shouts :as view]
               [shouter.models.shout :as model]
+              [shouter.components.add-game-for-winner-losser :as gm]
               [shouter.views.get-all-users :as users]
               [cheshire.core :as ch]
     (ring.middleware [session :as ses]
@@ -50,6 +51,12 @@
                 :body {:result :success
                        :data data
                        :desc (str "add game")}}))
+           (POST "/games/v1/add/stats" game
+             (let [data (gm/add-game-to-system (get game :body))]
+               {:status 200
+                :body {:result :success
+                       :data data
+                       :desc (str "add game to the system with stats for the winner and the losser")}}))
            (GET "/teams" []
              (let [respData (model/all-teams)]
                {:status 200
