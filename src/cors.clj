@@ -1,3 +1,5 @@
+;This file is property of DishOne
+
 (ns cors
   (:require
     [clojure.string :refer [join]] ))
