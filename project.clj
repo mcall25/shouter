@@ -10,6 +10,7 @@
         [compojure "1.1.3"]
         [hiccup "1.0.2"]
         [ring/ring-json "0.4.0"]
+        [ring-cors "0.1.11"]
                    ]
     :plugins [[lein-ring "0.7.3"]]
     :ring {:handler shouter.controllers.shouts/app}

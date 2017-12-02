@@ -10,6 +10,7 @@
               [shouter.models.shout :as model]
               [shouter.components.add-game-for-winner-losser :as gm]
               [shouter.views.get-all-users :as users]
+              [cors :as cors]
               [cheshire.core :as ch]
     (ring.middleware [session :as ses]
                      [json :as json]
@@ -84,6 +85,7 @@
   (->
     routes
     (wrap-json-response)
+    (cors/wrap-cors #".*")
     (json/wrap-json-body {:keywords? true })))
 
 
