@@ -39,15 +39,6 @@
 
 
 
-(defn add-user
-  [body] (execute! db/db-connection
-   (str "insert into users (entity_id, first_name, last_name, nick_name, state_name, team_id) VALUES (?,?,?,?,?,?)")
-    [(str (make-uuid))
-     (get body :first_name)
-     (get body :last_name)
-     (get body :nick_name)
-     (get body :state_name)
-     (get body :team_id)]))
 
 
 (defn users-profile-wins-by-id

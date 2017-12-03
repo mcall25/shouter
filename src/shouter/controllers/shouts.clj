@@ -9,6 +9,8 @@
               [shouter.views.shouts :as view]
               [shouter.models.shout :as model]
               [shouter.components.add-game-for-winner-losser :as gm]
+              [shouter.components.add-active-user :as addActiveUserComponent]
+              [shouter.views.list-nfl-teams :as listNflTeamsComponent]
               [shouter.views.get-all-users :as users]
               [cors :as cors]
               [cheshire.core :as ch]
@@ -29,7 +31,8 @@
                        :data respData
                        :desc (str "get request for all users")}}))
            (POST "/users/add" userinfo
-             (let [postData (model/add-user (get userinfo :body) )]
+                 (println (str "test first") userinfo)
+             (let [postData (addActiveUserComponent/add-user (get userinfo :body) )]
                {:status 200
                 :body {:result :success
                        :data postData
@@ -64,6 +67,12 @@
                 :body {:result :success
                        :data respData
                        :desc (str "get request for all teams")}}))
+           (GET "/teams/all/active" []
+                (let [respData (listNflTeamsComponent/get-all-active-teams)]
+                     {:status 200
+                      :body {:result :success
+                             :data respData
+                             :desc (str "get request for all active teams")}}))
            (POST "/teams/add" teamData
              (let [post-data (model/add-team (get teamData :body))]
                {:status 200
