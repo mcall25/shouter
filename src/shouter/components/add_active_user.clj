@@ -211,8 +211,8 @@
 (defn check-for-user-ln
       [ln]
       (db/query db/db-connection
-                [(str "select last_name from users where last_name =? ")ln]
-                response (:result-set-fn first)))
+        [(str "select last_name from users where last_name =? ")ln]
+        response (:result-set-fn first)))
 
 (defn post-team
       [selectTeam]
@@ -240,17 +240,13 @@
       (let [team? (check-for-team-in-db (get body :team_id))
             selectTeam (get-team-by-id (get body :team_id))
             user? (check-for-user-ln (get body :last_name))]
-
            (if (= user? [])
              (if (= team? [])
                {:team (post-team selectTeam)
                 :user (post-user body)}
-
-               {:user (post-user body)}
-               )
-             {:response (str "duplicate user")}
-             )
-       ))
+               {:user (post-user body)})
+             {:response (str "duplicate user")})
+      ))
 
 
 
