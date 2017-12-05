@@ -81,12 +81,12 @@
                              :data respData
                              :desc (str "get request for all active teams")}}))
 
-           (GET "/teams/v1/associated/:winner_id/:loser_id" [winner-id loser-id]
-                (let [respData (getAllTeamsByIdView/get-all-teams-for-winner-loser)]
+           (GET "/teams/v1/associated/:winnerId/:loserId" [winnerId loserId]
+                (let [respData (getAllTeamsByIdView/get-all-teams-for-winner-loser winnerId loserId)]
                      {:status 200
                       :body {:result :success
                              :data respData
-                             :desc (str "get request for teams associated to the winning or losing team")}}))
+                             :desc (str "get request for teams associated to the winning and losing players")}}))
            (POST "/teams/add" teamData
              (let [post-data (model/add-team (get teamData :body))]
                {:status 200
