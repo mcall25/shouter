@@ -19,3 +19,14 @@
                :team-id (row :team-id)
                :team-name (row :teamName)
                :state-name (row :state-name)})res)))
+
+
+(defn all-users-names
+      [] (let [res (db/query db/db-connection
+                             (str "select first_name, last_name, entity_id from users u where u.state_name = 'active' ")
+                             response (:result-set-fn first))]
+              (map (fn [row]
+                       {:fn (row :first-name)
+                        :ln (row :last-name)
+                        :entity-id (row :entity-id)})res)))
+

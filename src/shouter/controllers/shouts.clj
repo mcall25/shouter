@@ -12,6 +12,7 @@
               [shouter.components.add-active-user :as addActiveUserComponent]
               [shouter.views.list-nfl-teams :as listNflTeamsComponent]
               [shouter.views.get-all-users :as users]
+              [shouter.views.get-all-teams-by-id :as getAllTeamsByIdView]
               [cors :as cors]
               [cheshire.core :as ch]
     (ring.middleware [session :as ses]
@@ -30,6 +31,12 @@
                 :body {:result :success
                        :data respData
                        :desc (str "get request for all users")}}))
+           (GET "/users/v1/active-user-names" []
+                (let [respData (users/all-users-names)]
+                     {:status 200
+                      :body {:result :success
+                             :data respData
+                             :desc (str "get request for all users names and assoc entity_id")}}))
            (POST "/users/add" userinfo
                  (println (str "test first") userinfo)
              (let [postData (addActiveUserComponent/add-user (get userinfo :body) )]
@@ -73,6 +80,13 @@
                       :body {:result :success
                              :data respData
                              :desc (str "get request for all active teams")}}))
+
+           (GET "/teams/v1/associated/:winner_id/:loser_id" [winner-id loser-id]
+                (let [respData (getAllTeamsByIdView/get-all-teams-for-winner-loser)]
+                     {:status 200
+                      :body {:result :success
+                             :data respData
+                             :desc (str "get request for teams associated to the winning or losing team")}}))
            (POST "/teams/add" teamData
              (let [post-data (model/add-team (get teamData :body))]
                {:status 200
