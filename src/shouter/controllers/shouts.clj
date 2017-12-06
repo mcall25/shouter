@@ -10,6 +10,7 @@
               [shouter.models.shout :as model]
               [shouter.components.add-game-for-winner-losser :as gm]
               [shouter.components.add-active-user :as addActiveUserComponent]
+              [shouter.components.add-game-data :as addGameDataComponent]
               [shouter.views.list-nfl-teams :as listNflTeamsComponent]
               [shouter.views.get-all-users :as users]
               [shouter.views.get-all-teams-by-id :as getAllTeamsByIdView]
@@ -38,7 +39,6 @@
                              :data respData
                              :desc (str "get request for all users names and assoc entity_id")}}))
            (POST "/users/add" userinfo
-                 (println (str "test first") userinfo)
              (let [postData (addActiveUserComponent/add-user (get userinfo :body) )]
                {:status 200
                 :body {:result :success
@@ -56,8 +56,12 @@
                 :body {:result :success
                        :data deleteData
                        :desc (str "delete user")}}))
-           (POST "/games/add" games
-             (let [data (model/games-add (get games :body))]
+
+           ;GAMES
+
+
+           (POST "/games/add" game
+             (let [data (addGameDataComponent/add-game (get game :body))]
                {:status 200
                 :body {:result :success
                        :data data
@@ -68,6 +72,12 @@
                 :body {:result :success
                        :data data
                        :desc (str "add game to the system with stats for the winner and the losser")}}))
+
+
+           ;TEAMS
+
+
+
            (GET "/teams" []
              (let [respData (model/all-teams)]
                {:status 200

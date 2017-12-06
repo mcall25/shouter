@@ -17,7 +17,7 @@
                    {:fn (row :first-name)
                     :ln (row :last-name)
                     :team-name (row :team-name)
-                    :team-entity_id (row :entity-id)
+                    :team-entity-id (row :entity-id)
                     :team-city (row :team-city)
                     :team-state (row :team-state)})res)))
 
