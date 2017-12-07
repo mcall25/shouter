@@ -26,6 +26,10 @@
               ))
 
 (defroutes routes
+
+           ;USERS //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
            (GET "/users" []
              (let [respData (users/all-users)]
                {:status 200
@@ -57,7 +61,8 @@
                        :data deleteData
                        :desc (str "delete user")}}))
 
-           ;GAMES
+
+           ;GAMES //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
            (POST "/games/add" game
@@ -66,16 +71,15 @@
                 :body {:result :success
                        :data data
                        :desc (str "add game")}}))
-           (POST "/games/v1/add/stats" game
-             (let [data (gm/add-game-to-system (get game :body))]
-               {:status 200
-                :body {:result :success
-                       :data data
-                       :desc (str "add game to the system with stats for the winner and the losser")}}))
+           (POST "/games/add/stats/winner" game
+                 (let [data (addGameDataComponent/add-game-to-winner (get game :body))]
+                      {:status 200
+                       :body {:result :success
+                              :data data
+                              :desc (str "add game to the winner")}}))
 
 
-           ;TEAMS
-
+           ;TEAMS //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
            (GET "/teams" []
