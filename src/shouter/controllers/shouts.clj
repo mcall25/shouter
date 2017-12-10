@@ -13,6 +13,7 @@
               [shouter.components.add-game-data :as addGameDataComponent]
               [shouter.views.list-nfl-teams :as listNflTeamsComponent]
               [shouter.views.get-all-users :as users]
+              [shouter.views.get-user-profile :as userProfile]
               [shouter.views.get-all-teams-by-id :as getAllTeamsByIdView]
               [cors :as cors]
               [cheshire.core :as ch]
@@ -49,7 +50,7 @@
                        :data postData
                        :desc (str "add user")}}))
            (GET "/users/v1/profile/:id" [id]
-             (let [data (model/users-profile-by-id id)]
+             (let [data (userProfile/user-profile-by-id id)]
                {:status 200
                 :body {:result :success
                        :data data
@@ -77,6 +78,12 @@
                        :body {:result :success
                               :data data
                               :desc (str "add game to the winner")}}))
+           (POST "/games/add/stats/loser" game
+                 (let [data (addGameDataComponent/add-game-to-loser (get game :body))]
+                      {:status 200
+                       :body {:result :success
+                              :data data
+                              :desc (str "add game to the loser")}}))
 
 
            ;TEAMS //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,7 +101,6 @@
                       :body {:result :success
                              :data respData
                              :desc (str "get request for all active teams")}}))
-
            (GET "/teams/v1/associated/:winnerId/:loserId" [winnerId loserId]
                 (let [respData (getAllTeamsByIdView/get-all-teams-for-winner-loser winnerId loserId)]
                      {:status 200
