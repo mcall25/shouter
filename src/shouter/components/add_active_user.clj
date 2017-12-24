@@ -205,7 +205,7 @@
 (defn check-for-team-in-db
       [id]
       (db/query db/db-connection
-        [(str "select entity_id from team where entity_id =? ")id]
+        [(str "select entity_id from teams where entity_id =? ")id]
         response (:result-set-fn first)))
 
 (defn check-for-user-ln
@@ -217,7 +217,7 @@
 (defn post-team
       [selectTeam]
       (db/execute! db/db-connection
-       (str "insert into team (entity_id, team_name, team_state, team_city, state_name) VALUES (?,?,?,?,?)")
+       (str "insert into teams (entity_id, team_name, team_state, team_city, state_name) VALUES (?,?,?,?,?)")
        [(get selectTeam :entity-id)
         (get selectTeam :team-name)
         (get selectTeam :team-state)

@@ -39,8 +39,6 @@
 
 
 
-
-
 (defn users-profile-wins-by-id
   [id]
   (let [wins (query db/db-connection
@@ -81,7 +79,7 @@
 
 (defn all-teams
   [] (let [res (query db/db-connection
-   (str "select * from team")
+   (str "select * from teams")
     response (:result-set-fn first))]
       (map (fn [row]
        {:team-name (row :team-name)
@@ -92,7 +90,7 @@
 
 (defn add-team
   [body] (execute! db/db-connection
-   (str "insert into team (entity_id, team_name, team_state, team_city, state_name) VALUES (?,?,?,?,?) ")
+   (str "insert into teams (entity_id, team_name, team_state, team_city, state_name) VALUES (?,?,?,?,?) ")
     [(str (make-uuid))
      (get body :team_name)
      (get body :team_state)

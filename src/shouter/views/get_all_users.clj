@@ -9,7 +9,7 @@
 
 (defn all-users
   [] (let [res (db/query db/db-connection
-                      (str "select *, t.team_name as teamName from users u left join team t on u.team_id = t.entity_id where u.state_name = 'active' ")
+                      (str "select *, t.team_name as teamName from users u left join teams t on u.team_id = t.entity_id where u.state_name = 'active' ")
                       response (:result-set-fn first))]
        (map (fn [row]
               {:fn (row :first-name)

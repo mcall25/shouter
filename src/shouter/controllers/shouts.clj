@@ -8,7 +8,6 @@
               [compojure.route :as route]
               [shouter.views.shouts :as view]
               [shouter.models.shout :as model]
-              [shouter.components.add-game-for-winner-losser :as gm]
               [shouter.components.add-active-user :as addActiveUserComponent]
               [shouter.components.add-game-data :as addGameDataComponent]
               [shouter.views.list-nfl-teams :as listNflTeamsComponent]
@@ -72,18 +71,14 @@
                 :body {:result :success
                        :data data
                        :desc (str "add game")}}))
-           (POST "/games/add/stats/winner" game
-                 (let [data (addGameDataComponent/add-game-to-winner (get game :body))]
+           (POST "/games/add/v2/stat-assignments" stats
+                 (let [data (addGameDataComponent/add-game-stat-assignments (get stats :body))]
                       {:status 200
                        :body {:result :success
                               :data data
-                              :desc (str "add game to the winner")}}))
-           (POST "/games/add/stats/loser" game
-                 (let [data (addGameDataComponent/add-game-to-loser (get game :body))]
-                      {:status 200
-                       :body {:result :success
-                              :data data
-                              :desc (str "add game to the loser")}}))
+                              :desc (str "add performance stats to players")}}))
+
+
 
 
            ;TEAMS //////////////////////////////////////////////////////////////////////////////////////////////////////
